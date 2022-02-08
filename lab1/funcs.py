@@ -4,13 +4,19 @@ def fillFile(path):
     if os.path.exists(path):
         os.remove(path)
     print("\nEnter 'stop' to stop input")
-    inp = input()
-    with open(path, "a") as file:
-        while inp != "stop":
-            file.write(inp + "\n")
-            inp = input()
-        return file.flush()
 
+    try:
+        with open(path, "a") as file:
+            while True:
+                line = input()
+                for c in line:
+                    if ord(c) > 31 or ord(c) == 10:
+                        file.write(c)
+                    else:
+                        return file.flush()
+                file.write('\n')
+    except EOFError:
+        pass
 
 def countWords(path):
     amountOfWords = []
